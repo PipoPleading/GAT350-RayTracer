@@ -10,9 +10,13 @@ public:
 	void Shutdown();
 	bool CreateWindow(const std::string& title, int width, int height);
 
+	void PresentCanvas(const class Canvas& canvas);
+
+	friend class Canvas;
+
 private:
 	SDL_Window* m_window = nullptr;
-	SDL_Renderer* m_Renderer = nullptr;
+	SDL_Renderer* m_renderer = nullptr;
 	//<pointer to SDL_Window, set default to nullptr>
 	//<pointer to SDL_Renderer, set default to nullptr>
 

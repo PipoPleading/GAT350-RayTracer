@@ -1,4 +1,5 @@
 #include "Renderer.h"
+#include "Canvas.h"
 #include <iostream>
 
 bool Renderer::Initialize()
@@ -14,7 +15,7 @@ bool Renderer::Initialize()
 void Renderer::Shutdown()
 {
     if (m_window) SDL_DestroyWindow(m_window);
-    if (m_Renderer) SDL_DestroyRenderer(m_Renderer);
+    if (m_renderer) SDL_DestroyRenderer(m_renderer);
     //if sdl window is not null, destroy sdl window
     //if sdl renderer is not null, destroy sdl window
     SDL_Quit();
@@ -32,8 +33,8 @@ bool Renderer::CreateWindow(const std::string& title, int width, int height)
     
     }
     //the index of the rendering driver to initialize, or -1 to initialize the first one supporting the requested flags
-    m_Renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-    if (!m_window)
+    m_renderer = SDL_CreateRenderer(m_window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+    if (!m_renderer)
     {
         std::cerr << "SDL Error: " << SDL_GetError() << std::endl;
         return false;
@@ -41,4 +42,12 @@ bool Renderer::CreateWindow(const std::string& title, int width, int height)
     }
 
     return true;
+}
+
+void Renderer::PresentCanvas(const Canvas& canvas)
+{
+
+    SDL_RenderCopy(m_renderer, canvas.m_texture, nullptr, nullptr);
+
+    SDL_RenderPresent(m_renderer);
 }
