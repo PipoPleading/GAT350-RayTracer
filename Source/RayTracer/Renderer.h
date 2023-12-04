@@ -5,6 +5,7 @@ class Renderer
 {
 public:
 	Renderer() = default;
+	void Render(class Canvas& canvas);
 
 	bool Initialize();
 	void Shutdown();

@@ -1,5 +1,6 @@
 #include "Renderer.h"
 #include "Canvas.h"
+#include "Random.h"
 #include <iostream>
 
 bool Renderer::Initialize()
