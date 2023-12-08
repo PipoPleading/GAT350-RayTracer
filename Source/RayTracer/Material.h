@@ -1,5 +1,6 @@
 #pragma once
 #include "Ray.h"
+#include "Random.h"
 #include "Color.h"
 
 class Material
@@ -14,7 +15,16 @@ class Lambertian : public Material
 public:
 	Lambertian(const color3_t& albedo) : m_albedo{ albedo } {}
 	//<override the parent Scatter() method>
-	virtual bool Scatter(const ray_t& ray, const raycastHit_t& raycastHit, color3_t& color, ray_t& scattered) const override;
+	bool Scatter(const ray_t& ray, const raycastHit_t& raycastHit, color3_t& color, ray_t& scattered) const override 
+	{
+		glm::vec3 target = raycastHit.point + raycastHit.normal + randomInUnitSphere();//<raycast hit point + raycast hit normal + random in unit sphere>
+		glm::vec3 direction = normalize(target - raycastHit.point);//<create a direction from raycast hit point to the target and normalize it>;
+
+		scattered = { raycastHit.point, direction };//<set scattered ray with raycast hit point as the origin and the new direction>;
+		color = m_albedo;//<set color to material albedo>;
+
+		return true;
+	}
 
 protected:
 	color3_t m_albedo;
@@ -45,7 +55,7 @@ protected:
 class Emissive : public Material
 {
 public:
-	Emissive(const color3_t& albedo, float intensity) : m_albedo{albedo}, m_intensity{ intensity } {}
+	Emissive(const color3_t& albedo, float intensity = 1.0f) : m_albedo{albedo}, m_intensity{ intensity } {}
  
 	bool Scatter(const ray_t& ray, const raycastHit_t& raycastHit, color3_t& color, ray_t& scattered) const override { return false; }
 	color3_t GetEmissive() const override { return m_albedo * m_intensity; }

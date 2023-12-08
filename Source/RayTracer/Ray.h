@@ -1,11 +1,11 @@
 #pragma once
-#include <glm/vec3.hpp>
+#include <glm/glm.hpp>
 struct ray_t
 {
 	ray_t() = default;
 	ray_t(const glm::vec3& origin, const glm::vec3& direction) :
 		origin{ origin },
-		direction{ direction}
+		direction{ glm::normalize(direction)}
 	{}
 
 	glm::vec3 At(float distance) const { return origin + (direction * distance); }

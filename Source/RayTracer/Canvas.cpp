@@ -23,7 +23,7 @@ void Canvas::Update()
 {
 	// set texture with buffer rgba_t data
 	//texture, map, pixels pitch
-	SDL_UpdateTexture(m_texture, nullptr, m_buffer.data(), m_size.x * sizeof(rgba_t));
+	SDL_UpdateTexture(m_texture, NULL, m_buffer.data(), m_size.x * sizeof(rgba_t));
 }
 
 
