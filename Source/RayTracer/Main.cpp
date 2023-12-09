@@ -26,7 +26,7 @@ void InitSceneEmissiveCube(Scene& scene, const Canvas& canvas);
 
      const int width = 720;
      const int height = 480;
-     const int samples = 200;
+     const int samples = 300;
      const int depth = 10;
 
      Renderer renderer;
@@ -34,10 +34,10 @@ void InitSceneEmissiveCube(Scene& scene, const Canvas& canvas);
      renderer.CreateWindow("Ray Tracer", width, height);
 
      Canvas canvas(width, height, renderer);
-     Scene scene(glm::vec3{ 1 }, glm::vec3{ 1 });
+     Scene scene(glm::vec3{ 0.5f, 0.7f, 0.9f }, glm::vec3{ 1 });
 
      //InitScene02(scene, canvas);
-     InitScene02(scene, canvas);
+     InitScene01(scene, canvas);
 
      // render scene
      //canvas.Clear({ 0, 0, 0, 1 });
@@ -80,7 +80,7 @@ void InitSceneEmissiveCube(Scene& scene, const Canvas& canvas);
 void InitScene01(Scene& scene, const Canvas& canvas)
 {
     float aspectRatio = canvas.GetSize().x / canvas.GetSize().y;
-    std::shared_ptr<Camera> camera = std::make_shared<Camera>(glm::vec3{ 0, 2, 10 }, glm::vec3{ 0, 1, 0 }, glm::vec3{ 0, 1, 0 }, 20.0f, aspectRatio);
+    std::shared_ptr<Camera> camera = std::make_shared<Camera>(glm::vec3{ 8, 12, 35 }, glm::vec3{ 0, 1, 0 }, glm::vec3{ 0, 1, 0 }, 20.0f, aspectRatio);
     scene.SetCamera(camera);
 
     // create objects -> add to scene
@@ -108,6 +108,40 @@ void InitScene01(Scene& scene, const Canvas& canvas)
 
     auto plane = std::make_unique<Plane>(glm::vec3{ 0, 0, 0 }, glm::vec3{ 0, 1, 0 }, std::make_shared<Lambertian>(color3_t{ 0.8f }));
     scene.AddObject(std::move(plane));
+
+    //the man
+
+    auto leftLeg = std::make_unique<Mesh>(std::make_shared<Lambertian>(color3_t{ 0.22f, 0.169f, 0.6f }));
+    leftLeg->Load("models/cube.obj", glm::vec3{ 0, 0.25, -5 }, glm::vec3{ 0, 0, 0 }, glm::vec3{ 1.05, 3.5, 1.15 });
+    scene.AddObject(std::move(leftLeg));
+
+    auto rightLeg = std::make_unique<Mesh>(std::make_shared<Lambertian>(color3_t{ 0.22f, 0.169f, 0.6f }));
+    rightLeg->Load("models/cube.obj", glm::vec3{ 1.05f, 0.25, -5 }, glm::vec3{ 0, 0, 0 }, glm::vec3{ 1.05, 3.5, 1.15 });
+    scene.AddObject(std::move(rightLeg));
+
+    auto shirt = std::make_unique<Mesh>(std::make_shared<Lambertian>(color3_t{ 0, 0.722f, 0.729f }));
+    shirt->Load("models/cube.obj", glm::vec3{ 0.525f, 3.5, -5 }, glm::vec3{ 0, 0, 0 }, glm::vec3{ 2.2, 3, 1.2 });
+    scene.AddObject(std::move(shirt));
+
+    auto lSleeve = std::make_unique<Mesh>(std::make_shared<Lambertian>(color3_t{ 0, 0.722f, 0.729f }));
+    lSleeve->Load("models/cube.obj", glm::vec3{ -1.125f, 4.5, -5 }, glm::vec3{ 0, 0, -4 }, glm::vec3{ 1.25, 1.05, 1.35 });
+    scene.AddObject(std::move(lSleeve));
+
+    auto rSleeve = std::make_unique<Mesh>(std::make_shared<Lambertian>(color3_t{ 0, 0.722f, 0.729f }));
+    rSleeve->Load("models/cube.obj", glm::vec3{ 2.225f, 4.5, -5 }, glm::vec3{ 0, 0, 4 }, glm::vec3{ 1.25, 1.05, 1.35 });
+    scene.AddObject(std::move(rSleeve));
+
+    auto lArm = std::make_unique<Mesh>(std::make_shared<Lambertian>(color3_t{ 0.522, 0.376, 0.259f }));
+    lArm->Load("models/cube.obj", glm::vec3{ -1.125f, 3.5, -5 }, glm::vec3{ 0, 0, -4 }, glm::vec3{ 1.1, 3, 1.2 });
+    scene.AddObject(std::move(lArm));
+
+    auto rArm = std::make_unique<Mesh>(std::make_shared<Lambertian>(color3_t{ 0.522, 0.376, 0.259f }));
+    rArm->Load("models/cube.obj", glm::vec3{ 2.225f, 3.5, -5 }, glm::vec3{ 0, 0, 4 }, glm::vec3{ 1.1, 3, 1.2 });
+    scene.AddObject(std::move(rArm));
+
+    auto head = std::make_unique<Mesh>(std::make_shared<Lambertian>(color3_t{ 0.522, 0.376, 0.259f }));
+    head->Load("models/cube.obj", glm::vec3{ 0.525f, 5.75, -5 }, glm::vec3{ 0, 0, 0 }, glm::vec3{ 2, 2, 2 });
+    scene.AddObject(std::move(head));
 }
 
 void InitScene02(Scene& scene, const Canvas& canvas)
